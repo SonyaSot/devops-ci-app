@@ -1,15 +1,23 @@
-from app import app
+"""Tests for the service and health endpoints."""
+
+from app import create_app
 
 
 def test_index():
-    response = app.test_client().get("/")
+    """The root route returns service metadata."""
+    response = create_app().test_client().get("/")
 
     assert response.status_code == 200
-    assert response.get_data(as_text=True) == "DevOps CI app\n"
+    assert response.get_json() == {
+        "service": "devops-ci-app",
+        "version": "1.0.0",
+        "status": "running",
+    }
 
 
 def test_health():
-    response = app.test_client().get("/health")
+    """The health route reports that the service is healthy."""
+    response = create_app().test_client().get("/health")
 
     assert response.status_code == 200
     assert response.get_json() == {"status": "ok"}
