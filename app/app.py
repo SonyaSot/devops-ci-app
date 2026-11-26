@@ -13,7 +13,7 @@ def create_app():
 
     @application.get("/health")
     def health():
-        return {"status": "unhealthy"}
+        return {"status": "ok"}
 
     return application
 
